@@ -1,4 +1,4 @@
-const { ADD_FEATURE } = require("../actions");
+const { ADD_FEATURE, REMOVE_FEATURE, UPDATE_ADDITIONAL, UPDATE_TOTAL } = require("../actions");
 
 const initialState = {
         additionalPrice: 0,
@@ -24,8 +24,36 @@ const initialState = {
                   return {
                       ...state,
                       car: {...state.car,
-                      features: [...state.car.features, action.payload]}
-                  }
+                      features: [...state.car.features, action.payload]},
+                    additionalFeatures: state.additionalFeatures.filter( feature => {
+                        return feature !== action.payload
+                    }
+                    )};
+            
+               
+                case REMOVE_FEATURE:
+                    return {
+                        ...state,
+                        car: {...state.car,
+                        features: state.car.features.filter( feature => {
+                            return feature !== action.payload
+                        })},
+                      additionalFeatures: [...state.additionalFeatures, action.payload]
+                      
+                      };
+                
+                case UPDATE_ADDITIONAL:
+                    return {
+                        ...state,
+                        additionalPrice: state.car.features.length === 0 ? 0 :
+                        
+                        state.car.features.map(feature => {
+                            return feature.price})
+                            .reduce((accumulator, addedPrice) => {
+                                return accumulator + addedPrice   
+                        })
+                    }      
+    
             default:
                 return state
           } 

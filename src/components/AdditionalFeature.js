@@ -4,6 +4,8 @@ const AdditionalFeature = props => {
   const handleAddFeature = (evt) => {
     evt.preventDefault();
     props.addFeature(props.feature)
+    console.log("did features update?",props)
+   props.updateAdditional()
   }
   return (
 
